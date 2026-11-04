@@ -1,0 +1,51 @@
+<!doctype html>
+<!-- Where Tesla's sign-in returns (the redirect URI registered on developer.tesla.com). It hands
+     the one-time code to the HomePower app on the phone and keeps nothing: no server, no logs,
+     no outside resources. The code is useless without the app's client secret, kept on the phone. -->
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="referrer" content="no-referrer">
+<meta name="robots" content="noindex">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; style-src 'unsafe-inline'; script-src 'unsafe-inline'">
+<title>HomePower sign-in</title>
+<style>
+  body { font: 17px/1.5 system-ui, sans-serif; max-width: 34rem; margin: 2rem auto; padding: 0 1rem; color: #1b1b1b; background: #fff; }
+  a.button { display: inline-block; padding: .8rem 1.3rem; background: #1f6f4a; color: #fff; border-radius: .4rem; text-decoration: none; }
+  code { display: block; word-break: break-all; background: #f2f2f2; padding: .5rem; margin-top: .4rem; font-size: 14px; }
+  @media (prefers-color-scheme: dark) { body { color: #eee; background: #121212; } code { background: #262626; } }
+</style>
+</head>
+<body>
+<h1>Back to HomePower</h1>
+<p id="msg">Opening the HomePower app...</p>
+<p><a class="button" id="open" href="#">Open HomePower</a></p>
+<p id="manual" hidden>If the app did not open, copy this and paste it on the app's Tesla setup screen:
+  <code id="addr"></code></p>
+<script>
+(function () {
+  var q = new URLSearchParams(location.search);
+  var code = q.get("code"), state = q.get("state"), error = q.get("error");
+  var msg = document.getElementById("msg"), open = document.getElementById("open");
+  if (error) {
+    msg.textContent = "Tesla said: " + error + ". Go back to the app and tap Sign in again.";
+    open.hidden = true;
+    return;
+  }
+  if (!code || !state) {
+    msg.textContent = "This page is where the Tesla sign-in returns. There is nothing to do here.";
+    open.hidden = true;
+    return;
+  }
+  var query = "code=" + encodeURIComponent(code) + "&state=" + encodeURIComponent(state);
+  var intent = "intent://tesla?" + query + "#Intent;scheme=homepower;package=com.bonurastudios.homepower;end";
+  open.href = intent;
+  document.getElementById("addr").textContent = "homepower://tesla?" + query;
+  document.getElementById("manual").hidden = false;
+  history.replaceState(null, "", location.pathname);
+  location.replace(intent);
+})();
+</script>
+</body>
+</html>
