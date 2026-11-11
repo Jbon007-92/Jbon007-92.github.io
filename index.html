@@ -1,18 +1,27 @@
 <!doctype html>
+<!-- HomePower's home page: the address on Google's sign-in screen (Google Auth Platform, Branding)
+     and the home of Tesla's public key. Static, no outside resources, not indexed. -->
 <html lang="en">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="referrer" content="no-referrer">
 <meta name="robots" content="noindex">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; style-src 'unsafe-inline'">
 <title>HomePower</title>
 <style>
   body { font: 17px/1.5 system-ui, sans-serif; max-width: 34rem; margin: 2rem auto; padding: 0 1rem; color: #1b1b1b; background: #fff; }
-  @media (prefers-color-scheme: dark) { body { color: #eee; background: #121212; } }
+  a { color: #1f6f4a; }
+  @media (prefers-color-scheme: dark) { body { color: #eee; background: #121212; } a { color: #6fcf97; } }
 </style>
 </head>
 <body>
 <h1>HomePower</h1>
-<p>A private, read-only home energy app. This site only holds its public key for Tesla's Fleet API
-and the page Tesla's sign-in returns to.</p>
+<p>A private home energy app for one household. It reads the home's Tesla Powerwall and its Nest
+thermostats, and plans when the household's own computers run, so that they use spare solar power
+and free night-time power. It is not offered to the public: only its owner signs in to it.</p>
+<p><a href="privacy.html">Privacy policy</a></p>
+<p>This site also holds HomePower's public key for Tesla's Fleet API and the page Tesla's sign-in
+returns to.</p>
 </body>
 </html>
